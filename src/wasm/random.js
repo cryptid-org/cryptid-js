@@ -1,5 +1,5 @@
 (function randomIIFE() {
-    function cryptoRandom(buffer, byteCount) {
+    function __cryptid_cryptoRandom(buffer, byteCount) {
         const FAILURE = 1;
         const SUCCESS = 0;
         const isNode = (typeof window == 'undefined') && require;
@@ -43,6 +43,6 @@
     }
 
     mergeInto(LibraryManager.library, {
-        cryptoRandom
+        __cryptid_cryptoRandom
     });
 })();
