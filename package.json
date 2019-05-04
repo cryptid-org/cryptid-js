@@ -1,0 +1,18 @@
+{
+  "name": "@cryptid/cryptid-js",
+  "version": "0.1.0",
+  "description": "Identity-based Cryptography library powered by WebAssembly.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cryptid-org/cryptid-js.git"
+  },
+  "author": "Attila Bagossy",
+  "bugs": {
+    "url": "https://github.com/cryptid-org/cryptid-js/issues"
+  },
+  "homepage": "https://github.com/cryptid-org/cryptid-js#readme"
+}
