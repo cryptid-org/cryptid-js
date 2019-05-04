@@ -82,3 +82,10 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# Static libraries (such as libgmp.a)
+*.a
+
+# emcc wasm output
+src/wasm/cryptid-wasm.js
+src/wasm/cryptid-wasm.wasm
