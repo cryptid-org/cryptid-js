@@ -1,5 +1,5 @@
 const { wrapFunctions } = require('./signatures');
-const Module = require('cryptid-wasm');
+const Module = require('../wasm/cryptid-wasm.js');
 const cryptoApi = require('./crypto');
 const identityConverter = require('./identity-converter');
 
