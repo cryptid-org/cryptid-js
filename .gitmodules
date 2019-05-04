@@ -1,0 +1,3 @@
+[submodule "dependencies/cryptid-native"]
+	path = dependencies/cryptid-native
+	url = https://github.com/battila7/cryptid-native
