@@ -58,7 +58,7 @@ const stringApi = {
             };
         },
         asciiFromWasm(pointer) {
-            return Module.Pointer_stringify(pointer);
+            return Module.UTF8ToString(pointer);
         }
     }
 };
