@@ -1,0 +1,2 @@
+# Place here the static library dependencies.
+# Currently, the only such dependency is GMP.
