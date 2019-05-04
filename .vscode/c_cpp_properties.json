@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+            "name": "IncludeOnly",
+            "includePath": [
+                "${workspaceFolder}/dependencies/cryptid-native/include",
+                "${workspaceFolder}/dependencies/cryptid-native/third-party/include",
+                "${workspaceFolder}/src/native-interop/include"
+            ]
+        }
+    ],
+    "version": 4
+}
