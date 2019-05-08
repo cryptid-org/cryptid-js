@@ -87,5 +87,4 @@ typings/
 *.a
 
 # emcc wasm output
-src/wasm/cryptid-wasm.js
-src/wasm/cryptid-wasm.wasm
+src/wasm/cryptid-wasm.*
