@@ -44,9 +44,9 @@ function compileLibrary({ klawSync, paths, spawnSync }, extraArguments = []) {
 };
 
 function compileTestExecutableForComponent(componentName, { klawSync, fs, paths, spawnSync }, extraArguments = []) {    
-    const componentSourceFile = paths.native.test.componentSourceFile(componentName);
+    const componentSourceFile = paths.dependencies.native.test.componentSourceFile(componentName);
 
-    const testExecutable = paths.wasm.test.output(componentSourceFile);
+    const testExecutable = paths.wasm.test.output(componentName);
 
     if (!fs.pathExistsSync(componentSourceFile)) {
         throw new Error(`Component ${componentSourceFile} does not exist!`);
@@ -67,16 +67,14 @@ function compileTestExecutableForComponent(componentName, { klawSync, fs, paths,
         '-Wextra',
         '-Werror',
         '-g4',
-        '--post-js', path.join(paths.wasm.root, 'post.js'),
         '-s', 'WASM=1',
+        '-s', 'ASSERTIONS=1',
         '-s', 'ALLOW_MEMORY_GROWTH=1',
-        '-s', 'NO_EXIT_RUNTIME=0',
         '-s', `EXTRA_EXPORTED_RUNTIME_METHODS=[${extraExportedRuntimeMethods}]`,
-        '-s', `EXPORTED_FUNCTIONS=[${exportedFunctions}]`,
-        '-s', 'SINGLE_FILE=1',
         '-s', 'ENVIRONMENT=node',
         '-D__CRYPTID_EXTERN_RANDOM',
-        '--js-library', path.join(paths.wasm.root, 'random.js')
+        '--js-library', path.join(paths.wasm.root, 'random.js'),
+        '-o', testExecutable
     ];
     
     opts.push(...extraArguments)

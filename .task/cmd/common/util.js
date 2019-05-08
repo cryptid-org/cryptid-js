@@ -1,9 +1,9 @@
 const path = require('path');
 
 
-function discoverAllComponents({ fg, paths }) {
-    const names = fg.sync([`**/*${paths.test.sourceExtension}`], { cwd: paths.root })
-        .map(p => path.basename(p, paths.test.sourceExtension));
+function discoverAllNativeComponents({ fg, paths }) {
+    const names = fg.sync([`**/*${paths.dependencies.native.test.sourceExtension}`], { cwd: paths.dependencies.native.root })
+        .map(p => path.basename(p, paths.dependencies.native.test.sourceExtension));
     
     console.log(`Discovered ${names.length} components: ${names.join(' ')}`);
 
@@ -48,7 +48,7 @@ function moveFile({ fs }, source, destination) {
 }
 
 module.exports = {
-    discoverAllComponents,
+    discoverAllNativeComponents,
     removeFiles,
     run,
     walkDirectory,

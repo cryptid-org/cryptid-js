@@ -21,7 +21,7 @@ const paths = (function setupPaths() {
         }
     };
     native.test.componentSourceFile = function componentSourceFile(componentName) {
-        return path.join(test.sourceDir, `${componentName}.test.c`);
+        return path.join(native.test.sourceDir, `${componentName}.test.c`);
     };
     const gmp = {
         staticLibrary: path.join(root, 'dependencies', 'gmp', 'libgmp.a')
@@ -39,7 +39,7 @@ const paths = (function setupPaths() {
         },
         test: {
             output(componentName) {
-                return path.join(root, `${componentName}.out.js`);
+                return path.join(paths.root, `${componentName}-test-out.js`)
             }
         }
     };
