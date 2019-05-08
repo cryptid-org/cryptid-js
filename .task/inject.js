@@ -16,11 +16,8 @@ const paths = (function setupPaths() {
             includeDir: path.join(nativeRoot, 'third-party', 'include')
         },
         test: {
-            sourceDir: path.join(root, 'test', 'src'),
+            sourceDir: path.join(nativeRoot, 'test', 'src'),
             sourceExtension: '.test.c',
-            output(component) {
-                return `${component}.out`;
-            }
         }
     };
     native.test.componentSourceFile = function componentSourceFile(componentName) {
@@ -37,13 +34,13 @@ const paths = (function setupPaths() {
     const wasmRoot = path.join(root, 'src', 'wasm');
     const wasm = {
         root: wasmRoot,
-        defaultOutput: {
-            js: path.join(root, 'a.out.js'),
-            wasm: path.join(root, 'a.out.wasm')
-        },
-        targetOutput: {
+        output: {
             js: path.join(wasmRoot, 'cryptid-wasm.js'),
-            wasm: path.join(wasmRoot, 'cryptid-wasm.wasm')
+        },
+        test: {
+            output(componentName) {
+                return path.join(root, `${componentName}.out.js`);
+            }
         }
     };
 
