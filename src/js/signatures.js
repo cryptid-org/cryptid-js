@@ -3,12 +3,12 @@ const VOID = '';
 const NUMBER = 'number';
 
 const ExposedFunction = function ExposedFunction(name, returnType, parameters) {
-    return {
+    return Object.freeze({
         name,
         returnType,
         parameters
-    };
-}
+    });
+};
 
 const exposedFunctionSignatures = {
     allocatePublicParameters: ExposedFunction(
@@ -198,7 +198,7 @@ function wrapFunctions(Module) {
     });
 
     return result;
-}
+};
 
 module.exports = {
     wrapFunctions

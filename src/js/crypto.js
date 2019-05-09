@@ -1,3 +1,125 @@
+function decrypt(publicParameters, privateKey, ciphertext) {
+    const publicParametersPointer = publicParametersToWasm.call(this, publicParameters);
+    const privateKeyPointer = privateKeyToWasm.call(this, privateKey);
+    const ciphertextPointer = ciphertextToWasm.call(this, ciphertext);
+
+    const result = {
+        plaintext: null
+    };
+
+    const decryptResultPointer = this.interop.decrypt(ciphertextPointer, privateKeyPointer, publicParametersPointer);
+    result.success = !!+this.interop.isDecryptSuccess(decryptResultPointer);
+
+    if (result.success) {
+        result.plaintext = this.string.utf8FromWasm(this.interop.getDecryptPlaintext(decryptResultPointer));
+    }
+
+    this.interop.destroyDecryptResult(decryptResultPointer);
+    this.interop.destroyPublicParameters(publicParametersPointer);
+    this.interop.destroyPrivateKey(privateKeyPointer);
+    this.interop.destroyCipherTextTuple(ciphertextPointer);
+
+    this.memory.free(
+        decryptResultPointer,
+        publicParametersPointer,
+        privateKeyPointer,
+        ciphertextPointer
+    );
+
+    return result;
+}
+
+function encrypt(publicParameters, identity, message) {
+    const publicParametersPointer = publicParametersToWasm.call(this, publicParameters);
+    const identityWasm = this.string.utf8ToWasm(identity);
+    const messageWasm = this.string.utf8ToWasm(message);
+
+    const result = {
+        ciphertext: null
+    };
+
+    const encryptResultPointer = this.interop.encrypt(
+        messageWasm.pointer,
+        messageWasm.size,
+        identityWasm.pointer,
+        identityWasm.size,
+        publicParametersPointer
+    );
+
+    result.success = !!+this.interop.isEncryptSuccess(encryptResultPointer);
+
+    const ciphertextPointer = this.interop.getEncryptCiphertext(encryptResultPointer);
+
+    if (result.success) {
+        result.ciphertext = ciphertextFromWasm.call(this, ciphertextPointer);
+    }
+
+    this.interop.destroyEncryptResult(encryptResultPointer);
+    this.interop.destroyPublicParameters(publicParametersPointer);
+
+    this.memory.free(
+        identityWasm.pointer,
+        messageWasm.pointer,
+        encryptResultPointer,
+        publicParametersPointer
+    );
+
+    return result;
+}
+
+function setup(securityLevel) {
+    const result = {
+        masterSecret: null,
+        publicParameters: null
+    };
+
+    const setupResultPointer = this.interop.setup(securityLevel);
+
+    result.success = !!+this.interop.isSetupSuccess(setupResultPointer);
+
+    if (result.success) {
+        result.masterSecret = this.string.asciiFromWasm(this.interop.getMasterSecret(setupResultPointer));
+
+        result.publicParameters = publicParametersFromWasm.call(this, setupResultPointer, securityLevel);
+    }
+
+    this.interop.destroySetupResult(setupResultPointer);
+
+    this.memory.free(setupResultPointer);
+
+    return result;
+}
+
+function extract(publicParameters, masterSecret, identity) {
+    const result = {
+        privateKey: null
+    };
+
+    const masterSecretWasm = this.string.asciiToWasm(masterSecret);
+    const identityWasm = this.string.utf8ToWasm(identity);
+    const publicParametersPointer = publicParametersToWasm.call(this, publicParameters);
+
+    const extractResultPointer = this.interop.extract(identityWasm.pointer, publicParametersPointer, masterSecretWasm.pointer);
+
+    result.success = !!+this.interop.isExtractSuccess(extractResultPointer);
+
+    if (result.success) {
+        result.privateKey = privateKeyFromWasm.call(this, extractResultPointer);
+    }
+
+    this.interop.destroyPublicParameters(publicParametersPointer);
+    this.interop.destroyExtractResult(extractResultPointer);
+
+    this.memory.free(
+        masterSecretWasm.pointer,
+        identityWasm.pointer,
+        extractResultPointer,
+        publicParametersPointer
+    );
+
+    return result;
+}
+
 function privateKeyToWasm(privateKey) {
     const xWasm = this.string.asciiToWasm(privateKey.x);
     const yWasm = this.string.asciiToWasm(privateKey.y);
@@ -145,128 +267,6 @@ function publicParametersFromWasm(setupResultPointer, securityLevel) {
         },
         securityLevel
     };
-}
-
-function decrypt(publicParameters, privateKey, ciphertext) {
-    const publicParametersPointer = publicParametersToWasm.call(this, publicParameters);
-    const privateKeyPointer = privateKeyToWasm.call(this, privateKey);
-    const ciphertextPointer = ciphertextToWasm.call(this, ciphertext);
-
-    const result = {
-        plaintext: null
-    };
-
-    const decryptResultPointer = this.interop.decrypt(ciphertextPointer, privateKeyPointer, publicParametersPointer);
-    result.success = !!+this.interop.isDecryptSuccess(decryptResultPointer);
-
-    if (result.success) {
-        result.plaintext = this.string.utf8FromWasm(this.interop.getDecryptPlaintext(decryptResultPointer));
-    }
-
-    this.interop.destroyDecryptResult(decryptResultPointer);
-    this.interop.destroyPublicParameters(publicParametersPointer);
-    this.interop.destroyPrivateKey(privateKeyPointer);
-    this.interop.destroyCipherTextTuple(ciphertextPointer);
-
-    this.memory.free(
-        decryptResultPointer,
-        publicParametersPointer,
-        privateKeyPointer,
-        ciphertextPointer
-    );
-
-    return result;
-}
-
-function encrypt(publicParameters, identity, message) {
-    const publicParametersPointer = publicParametersToWasm.call(this, publicParameters);
-    const identityWasm = this.string.utf8ToWasm(identity);
-    const messageWasm = this.string.utf8ToWasm(message);
-
-    const result = {
-        ciphertext: null
-    };
-
-    const encryptResultPointer = this.interop.encrypt(
-        messageWasm.pointer,
-        messageWasm.size,
-        identityWasm.pointer,
-        identityWasm.size,
-        publicParametersPointer
-    );
-
-    result.success = !!+this.interop.isEncryptSuccess(encryptResultPointer);
-
-    const ciphertextPointer = this.interop.getEncryptCiphertext(encryptResultPointer);
-
-    if (result.success) {
-        result.ciphertext = ciphertextFromWasm.call(this, ciphertextPointer);
-    }
-
-    this.interop.destroyEncryptResult(encryptResultPointer);
-    this.interop.destroyPublicParameters(publicParametersPointer);
-
-    this.memory.free(
-        identityWasm.pointer,
-        messageWasm.pointer,
-        encryptResultPointer,
-        publicParametersPointer
-    );
-
-    return result;
-}
-
-function setup(securityLevel) {
-    const result = {
-        masterSecret: null,
-        publicParameters: null
-    };
-
-    const setupResultPointer = this.interop.setup(securityLevel);
-
-    result.success = !!+this.interop.isSetupSuccess(setupResultPointer);
-
-    if (result.success) {
-        result.masterSecret = this.string.asciiFromWasm(this.interop.getMasterSecret(setupResultPointer));
-
-        result.publicParameters = publicParametersFromWasm.call(this, setupResultPointer, securityLevel);
-    }
-
-    this.interop.destroySetupResult(setupResultPointer);
-
-    this.memory.free(setupResultPointer);
-
-    return result;
-}
-
-function extract(publicParameters, masterSecret, identity) {
-    const result = {
-        privateKey: null
-    };
-
-    const masterSecretWasm = this.string.asciiToWasm(masterSecret);
-    const identityWasm = this.string.utf8ToWasm(identity);
-    const publicParametersPointer = publicParametersToWasm.call(this, publicParameters);
-
-    const extractResultPointer = this.interop.extract(identityWasm.pointer, publicParametersPointer, masterSecretWasm.pointer);
-
-    result.success = !!+this.interop.isExtractSuccess(extractResultPointer);
-
-    if (result.success) {
-        result.privateKey = privateKeyFromWasm.call(this, extractResultPointer);
-    }
-
-    this.interop.destroyPublicParameters(publicParametersPointer);
-    this.interop.destroyExtractResult(extractResultPointer);
-
-    this.memory.free(
-        masterSecretWasm.pointer,
-        identityWasm.pointer,
-        extractResultPointer,
-        publicParametersPointer
-    );
-
-    return result;
 }
 
 module.exports = {

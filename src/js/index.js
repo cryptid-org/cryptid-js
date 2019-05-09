@@ -1,11 +1,12 @@
-const { wrapFunctions } = require('./signatures');
-const Module = require('../wasm/cryptid-wasm.js');
-const cryptoApi = require('./crypto');
-const identityConverter = require('./identity-converter');
-
 const base64js = require('base64-js');
 
-const base64Api = {
+const CryptoApi = require('./crypto');
+const { wrapFunctions } = require('./signatures');
+const identityConverter = require('./identity-converter');
+const Module = require('../wasm/cryptid-wasm.js');
+
+
+const Base64Api = {
     base64: {
         toByteArray(base64String) {
             return base64js.toByteArray(base64String);
@@ -16,7 +17,7 @@ const base64Api = {
     }
 };
 
-const memoryApi = {
+const MemoryApi = {
     memory: {
         allocate: size => Module._malloc(size),
         free: (...pointers) => pointers.forEach(pointer => Module._free(pointer)),
@@ -25,7 +26,7 @@ const memoryApi = {
     }
 };
 
-const stringApi = {
+const StringApi = {
     string: {
         utf8ToWasm(str) {
             const size = Module.lengthBytesUTF8(str);
@@ -66,11 +67,11 @@ const stringApi = {
 const privateApi = Object.assign(
     Object.create(null),
     {
-        crypto: cryptoApi
+        crypto: CryptoApi
     },
-    base64Api,
-    memoryApi,
-    stringApi
+    Base64Api,
+    MemoryApi,
+    StringApi
 );
 
 function publicApiFactory() {
