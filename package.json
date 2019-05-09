@@ -16,6 +16,8 @@
   },
   "homepage": "https://github.com/cryptid-org/cryptid-js#readme",
   "dependencies": {
-    "base64-js": "^1.3.0"
+    "base64-js": "^1.3.0",
+    "faker": "^4.1.0",
+    "mocha": "^6.1.4"
   }
 }
