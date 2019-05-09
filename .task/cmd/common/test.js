@@ -2,15 +2,11 @@ const { compileTestExecutableForComponent } = require('./compile');
 const { removeFiles, run } = require('./util');
 
 function runTests(dependencies, components) {
-    try {
-        const errors = testComponents(dependencies, components);
+    const errors = testComponents(dependencies, components);
 
-        if (errors.length > 0) {
-            console.log(errors);
-            throw new Error('There were errors running the tests. Please see the log lines above.');
-        }
-    } finally {
-        //removeFiles(dependencies, ['*.out.js']);
+    if (errors.length > 0) {
+        console.log(errors);
+        throw new Error('There were errors running the tests. Please see the log lines above.');
     }
 };
 
@@ -30,7 +26,7 @@ function testComponents(dependencies, components) {
                 error: e
             });
         } finally {
-            // removeFiles(dependencies, ['*test-out*']);
+            removeFiles(dependencies, ['*test-out*']);
         }
 
         console.log('\n');
@@ -39,6 +35,13 @@ function testComponents(dependencies, components) {
     return errors;
 };
 
+function runJavaScriptTests(dependencies) {
+    const { paths } = dependencies;
+
+    run(dependencies, paths.js.test.mocha, [paths.js.test.root], { cwd: paths.root });            
+}
+
 module.exports = {
-    runTests
+    runTests,
+    runJavaScriptTests
 };

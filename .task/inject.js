@@ -51,11 +51,19 @@ const paths = (function setupPaths() {
         includeDir: path.join(interopRoot, 'include'),
     };
 
+    const js = {
+        test: {
+            root: path.join(root, 'test', '**', '*.test.js'),
+            mocha: path.join(root, 'node_modules', '.bin', 'mocha')
+        }
+    };
+
     return {
         root,
         dependencies,
         wasm,
-        interop
+        interop,
+        js
     };
 })();
 
