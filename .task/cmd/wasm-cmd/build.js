@@ -9,9 +9,9 @@ module.exports = {
             description: 'Create a debug build.',
             type: 'boolean'
         },
-        node: {
-            description: 'Create an output specialized for Node.js. Implies singleFile.',
-            type: 'boolean'
+        environment: {
+            description: 'The target environment. Note that node implies single file.',
+            choices: ['browser', 'node']
         },
         profiling: {
             description: 'Produce profiling-friendly output.',
@@ -23,18 +23,13 @@ module.exports = {
         }
     },
     handlerFactory(dependencies) {
-        return function handler({ debug, node, profiling, singleFile }) {
+        return function handler({ environment, debug, profiling, singleFile }) {
             const args = [];
 
             if (debug) {
                 args.push('-g4');
             } else {
                 args.push('-O3');
-            }
-            
-            if (node) {
-                args.push('-s', 'ENVIRONMENT=node');
-                args.push('-s', 'SINGLE_FILE=1');
             }
 
             if (singleFile) {
@@ -45,7 +40,7 @@ module.exports = {
                 args.push('--profiling-funcs');
             }
 
-            compileLibrary(dependencies, args);
+            compileLibrary(dependencies, environment, args);
         };
     }
 };

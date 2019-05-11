@@ -8,9 +8,9 @@ module.exports = {
     desc: 'Creates a bundle suitable for server-side use.',
     handlerFactory(dependencies) {
         return function handler() {
-            const compileArgs = ['-O3', '-s', 'ENVIRONMENT=node', '-s', 'SINGLE_FILE=1'];
+            const compileArgs = ['-O3'];
 
-            compileLibrary(dependencies, compileArgs);
+            compileLibrary(dependencies, 'node', compileArgs);
 
             const { fs, paths } = dependencies;
 

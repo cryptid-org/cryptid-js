@@ -7,9 +7,9 @@ module.exports = {
     desc: 'Runs the JS tests.',
     handlerFactory(dependencies) {
         return function handler() {
-            const compileArgs = ['-g4', '-s', 'ENVIRONMENT=node', '-s', 'SINGLE_FILE=1'];
+            const compileArgs = ['-g4'];
 
-            compileLibrary(dependencies, compileArgs);
+            compileLibrary(dependencies, 'node', compileArgs);
 
             runJavaScriptTests(dependencies);
         };

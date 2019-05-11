@@ -3,6 +3,9 @@ const path = require('path');
 const { run, walkDirectory } = require('./util');
 
 
+const BROWSER_ENVIRONMENT = 'browser';
+const NODE_ENVIRONMENT = 'node';
+
 const extraExportedRuntimeMethods = [
     'ccall', 'cwrap', 'stringToUTF8', 'UTF8ToString', 'writeAsciiToMemory',
     'writeArrayToMemory', 'lengthBytesUTF8'
@@ -12,7 +15,7 @@ const exportedFunctions = [
     '_malloc', '_free'
 ].map(f => `"${f}"`).join(',');
 
-function compileLibrary({ klawSync, paths, spawnSync }, extraArguments = []) {
+function compileLibrary({ klawSync, paths, spawnSync }, environment, extraArguments = []) {
     const sources = discoverSources({ klawSync, paths });
 
     const opts = [
@@ -34,9 +37,23 @@ function compileLibrary({ klawSync, paths, spawnSync }, extraArguments = []) {
         '-s', `EXTRA_EXPORTED_RUNTIME_METHODS=[${extraExportedRuntimeMethods}]`,
         '-s', `EXPORTED_FUNCTIONS=[${exportedFunctions}]`,
         '-D__CRYPTID_EXTERN_RANDOM',
-        '--js-library', path.join(paths.wasm.root, 'random.js'),
         '-o', paths.wasm.output.js
     ];
+
+    if (environment == BROWSER_ENVIRONMENT) {
+        opts.push(...[
+            '-s', 'ENVIRONMENT=web',
+            '--js-library', path.join(paths.wasm.root, 'random-browser.js')
+        ]);
+    } else if (environment == NODE_ENVIRONMENT) {
+        opts.push(...[
+            '-s', 'ENVIRONMENT=node',
+            '-s', 'SINGLE_FILE=1',
+            '--js-library', path.join(paths.wasm.root, 'random-node.js')
+        ]);
+    }
+
+
 
     opts.push(...extraArguments)
 

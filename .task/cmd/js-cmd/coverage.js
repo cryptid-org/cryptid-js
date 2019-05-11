@@ -14,9 +14,9 @@ module.exports = {
     },
     handlerFactory(dependencies) {
         return function handler({ format }) {
-            const compileArgs = ['-g4', '-s', 'ENVIRONMENT=node', '-s', 'SINGLE_FILE=1'];
+            const compileArgs = ['-g4'];
 
-            compileLibrary(dependencies, compileArgs);
+            compileLibrary(dependencies, 'node', compileArgs);
 
             runJavaScriptTestsWithCoverage(dependencies, format);
         };
