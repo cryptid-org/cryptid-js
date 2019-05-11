@@ -5,7 +5,9 @@ function isObject(element) {
 }
 
 function convertToSortedForm(element) {
-    if (isObject(element)) {
+    if (Array.isArray(element)) {
+        return element.map(convertToSortedForm);
+    } else if (isObject(element)) {
         const sortedKeys = Object.keys(element).slice().sort();
 
         return sortedKeys.reduce((obj, key) => {
@@ -21,5 +23,5 @@ function convertToSortedForm(element) {
 module.exports = function identityConverter(identity) {
     const sortedObj = convertToSortedForm(identity);
 
-    return JSON.stringify(sortedObj);
+    return sortedObj;
 }
