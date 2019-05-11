@@ -66,7 +66,8 @@ const paths = (function setupPaths() {
     const lib = {
         root: libRoot,
         node: path.join(libRoot, 'node'),
-        browser: path.join(libRoot, 'browser')
+        browser: path.join(libRoot, 'browser'),
+        rollup: path.join(root, 'node_modules', '.bin', 'rollup')
     };
 
     return {
