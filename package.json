@@ -19,5 +19,8 @@
     "base64-js": "^1.3.0",
     "faker": "^4.1.0",
     "mocha": "^6.1.4"
+  },
+  "devDependencies": {
+    "nyc": "^14.1.1"
   }
 }

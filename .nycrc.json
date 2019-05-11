@@ -1,0 +1,10 @@
+{
+    "exclude": [
+        "src/wasm/cryptid-wasm.js",
+        "src/wasm/post.js",
+        "src/wasm/random.js",
+
+        "test/**"
+    ],
+    "report-dir": "coverage"
+}

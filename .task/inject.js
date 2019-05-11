@@ -54,7 +54,8 @@ const paths = (function setupPaths() {
     const js = {
         test: {
             root: path.join(root, 'test', '**', '*.test.js'),
-            mocha: path.join(root, 'node_modules', '.bin', 'mocha')
+            mocha: path.join(root, 'node_modules', '.bin', 'mocha'),
+            nyc: path.join(root, 'node_modules', '.bin', 'nyc')
         }
     };
 
