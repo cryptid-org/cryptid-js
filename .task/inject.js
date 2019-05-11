@@ -52,6 +52,9 @@ const paths = (function setupPaths() {
     };
 
     const js = {
+        source: {
+            root: path.join(root, 'src', 'js')
+        },
         test: {
             root: path.join(root, 'test', '**', '*.test.js'),
             mocha: path.join(root, 'node_modules', '.bin', 'mocha'),
@@ -59,12 +62,20 @@ const paths = (function setupPaths() {
         }
     };
 
+    const libRoot = path.join(root, 'lib');
+    const lib = {
+        root: libRoot,
+        node: path.join(libRoot, 'node'),
+        browser: path.join(libRoot, 'browser')
+    };
+
     return {
         root,
         dependencies,
         wasm,
         interop,
-        js
+        js,
+        lib
     };
 })();
 

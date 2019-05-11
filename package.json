@@ -2,7 +2,7 @@
   "name": "@cryptid/cryptid-js",
   "version": "0.1.0",
   "description": "Identity-based Cryptography library powered by WebAssembly.",
-  "main": "src/index.js",
+  "main": "lib/node/js/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -88,3 +88,6 @@ typings/
 
 # emcc wasm output
 src/wasm/cryptid-wasm.*
+
+# Bundling output
+lib/
