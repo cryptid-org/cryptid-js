@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Identity-based Cryptography library powered by WebAssembly.",
   "main": "lib/node/js/index.js",
+  "browser": "lib/browser/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,12 +17,15 @@
   },
   "homepage": "https://github.com/cryptid-org/cryptid-js#readme",
   "dependencies": {
-    "base64-js": "^1.3.0",
-    "faker": "^4.1.0",
-    "mocha": "^6.1.4",
-    "parcel-bundler": "^1.12.3"
+    "base64-js": "^1.3.0"
   },
   "devDependencies": {
-    "nyc": "^14.1.1"
+    "faker": "^4.1.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "rollup": "^1.11.3",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-resolve": "^4.2.4",
+    "rollup-plugin-terser": "^4.0.4"
   }
 }
