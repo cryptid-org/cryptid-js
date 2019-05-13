@@ -30,7 +30,7 @@ function bundleNode(dependencies) {
 
 module.exports = {
     command: 'bundle',
-    desc: 'Creates a bundle suitable for server-side use.',
+    desc: 'Bundles the library into a single file.',
     builder: {
         environment: {
             desc: 'The environment in which the bundle is going to be consumed.',
