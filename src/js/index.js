@@ -131,8 +131,17 @@ const wasmRuntimeInitialized = new Promise(function runtimeInitializationPromise
     Module['onRuntimeInitialized'] = resolve;
 });
 
-module.exports = {
+const SecurityLevel = Object.freeze({
+    LOWEST: 0,
+    LOW: 1,
+    MEDIUM: 2,
+    HIGH: 3,
+    HIGHEST: 4
+});
+
+module.exports = Object.freeze({
+    SecurityLevel,
     getInstance() {
         return wasmRuntimeInitialized.then(publicApiFactory);
     }
-};
+});

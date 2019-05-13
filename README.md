@@ -9,9 +9,9 @@ const CryptID = require('wherever-cryptid-is');
 
 // getInstance() asynchronously acquires a client instance
 CryptID.getInstance().then(instance => {
-    // 0 means the LOWEST security level - TODO, SecurityLevel abstraction
+    // 0 means the LOWEST security level
     // setupResult contains the crucial parts - the public parameters and the master secret
-    const setupResult = instance.setup(0);
+    const setupResult = instance.setup(CryptID.SecurityLevel.LOWEST);
 
     if (!setupResult.success) {
         console.log('Failed to setup :(');
