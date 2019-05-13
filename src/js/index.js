@@ -95,6 +95,14 @@ function publicApiFactory() {
     }
 
     return {
+        /**
+         * Encrypts the specified message so that it can be only decrypted with the private key
+         * corresponding to the passed identity.
+         * @param {*} publicParameters the IBE public parameters created with an invocation of setup
+         * @param {*} identity the identity object to encrypt with
+         * @param {*} message the message to encrypt
+         * @returns an object with the `ciphertext` and a `success` boolean field
+         */
         encrypt(publicParameters, identity, message) {
             checkDisposed();
 
@@ -102,16 +110,39 @@ function publicApiFactory() {
 
             return privateApi.crypto.encrypt.call(context, publicParameters, canonicIdentity, message);
         },
+
+        /**
+         * Attempts to decrypt the passed ciphertext with the specified private key.
+         * @param {*} publicParameters the IBE public parameters created with an invocation of setup
+         * @param {*} privateKey the private key to decrypt with
+         * @param {*} ciphertext the ciphertext to decrypt
+         * @returns an object with the `plaintext` and a `success` boolean field
+         */
         decrypt(publicParameters, privateKey, ciphertext) {
             checkDisposed();
 
             return privateApi.crypto.decrypt.call(context, publicParameters, privateKey, ciphertext);
         },
+
+        /**
+         * Establishes a master secret and public parameters for a given security level. The master secret (as its name suggests)
+         * should be kept secret, while the public parameters can be distributed among the clients.
+         * @param {*} securityLevel The desired security level. See the `SecurityLevel` enum.
+         * @returns an object with the `publicParameters`, the `masterSecret` and a `success` boolean field
+         */
         setup(securityLevel) {
             checkDisposed();
 
             return privateApi.crypto.setup.call(context, securityLevel);
         },
+
+        /**
+         * Extracts the private key corresponding to a given identity string.
+         * @param {*} publicParameters the IBE public parameters created with an invocation of setup
+         * @param {*} masterSecret the master secret corresponding to the public parameters
+         * @param {*} identity the identity object for which the private key is requested
+         * @returns an object with the `privateKey` and a `success` boolean field
+         */
         extract(publicParameters, masterSecret, identity) {
             checkDisposed();
 
@@ -119,6 +150,11 @@ function publicApiFactory() {
 
             return privateApi.crypto.extract.call(context, publicParameters, masterSecret, canonicIdentity);
         },
+
+        /**
+         * Disposes the object, releasing all allocated resources. Subsequent calls to
+         * module functions will be invalid and result in an error.
+         */
         dispose() {
             checkDisposed();
 
@@ -140,7 +176,16 @@ const SecurityLevel = Object.freeze({
 });
 
 module.exports = Object.freeze({
+    /**
+     * Enumeration of the available security levels.
+     */
     SecurityLevel,
+
+    /**
+     * Asynchronously requests a new CryptID instance. The returned promise will be
+     * resolved with a new object capable of IBE operations.
+     * @returns a promise of a CryptID instance
+     */
     getInstance() {
         return wasmRuntimeInitialized.then(publicApiFactory);
     }
