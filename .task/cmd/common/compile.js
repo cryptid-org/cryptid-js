@@ -24,7 +24,8 @@ function compileLibrary({ klawSync, paths, spawnSync }, environment, extraArgume
         ...sources.interopSourceFiles,
         ...sources.thirdPartyLibraries,
         `-I${paths.dependencies.native.cryptid.includeDir}`,
-        `-I${paths.dependencies.native.thirdParty.includeDir}`,
+        `-I${paths.dependencies.native.dependencies.gmp.includeDir}`,
+        `-I${paths.dependencies.native.dependencies.sha.includeDir}`,
         `-I${paths.interop.includeDir}`,
         '-std=c11',
         '-Wall',
@@ -77,7 +78,9 @@ function compileTestExecutableForComponent(componentName, { klawSync, fs, paths,
         ...sources.thirdPartyLibraries,
         componentSourceFile,
         `-I${paths.dependencies.native.cryptid.includeDir}`,
-        `-I${paths.dependencies.native.thirdParty.includeDir}`,
+        `-I${paths.dependencies.native.dependencies.gmp.includeDir}`,
+        `-I${paths.dependencies.native.dependencies.greatest.includeDir}`,
+        `-I${paths.dependencies.native.dependencies.sha.includeDir}`,
         `-I${paths.interop.includeDir}`,
         '-std=c11',
         '-Wall',
@@ -108,7 +111,7 @@ function compile(dependencies, opts) {
 function discoverSources({ klawSync, paths }) {
     const cryptidSourceFiles = walkDirectory(klawSync, paths.dependencies.native.cryptid.sourceDir,
         paths.dependencies.native.cryptid.sourceExtension);
-    const thirdPartySourceFiles = walkDirectory(klawSync, paths.dependencies.native.thirdParty.sourceDir,
+    const thirdPartySourceFiles = walkDirectory(klawSync, paths.dependencies.native.dependencies.sha.sourceDir,
         paths.dependencies.native.cryptid.sourceExtension);
     const interopSourceFiles = walkDirectory(klawSync, paths.interop.sourceDir,
         paths.interop.sourceExtension);

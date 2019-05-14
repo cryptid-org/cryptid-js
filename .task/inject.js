@@ -3,7 +3,8 @@ const path = require('path');
 const paths = (function setupPaths() {
     const root = path.resolve(__dirname, '..');
 
-    const nativeRoot = path.join(root, 'dependencies', 'cryptid-native')
+    const nativeRoot = path.join(root, 'dependencies', 'cryptid-native');
+    const nativeDependenciesRoot = path.join(nativeRoot, 'dependencies');
     const native = {
         root: nativeRoot,
         cryptid: {
@@ -11,9 +12,18 @@ const paths = (function setupPaths() {
             sourceExtension: '.c',
             includeDir: path.join(nativeRoot, 'include')
         },
-        thirdParty: {
-            sourceDir: path.join(nativeRoot, 'third-party', 'src'),
-            includeDir: path.join(nativeRoot, 'third-party', 'include')
+        dependencies: {
+            gmp: {
+                includeDir: path.join(nativeDependenciesRoot, 'gmp', 'include')
+            },
+            greatest: {
+                includeDir: path.join(nativeDependenciesRoot, 'greatest', 'include'),
+                miscDir: path.join(nativeDependenciesRoot, 'greatest', 'misc')
+            },
+            sha: {
+                includeDir: path.join(nativeDependenciesRoot, 'sha', 'include'),
+                sourceDir: path.join(nativeDependenciesRoot, 'sha', 'src')
+            }
         },
         test: {
             sourceDir: path.join(nativeRoot, 'test', 'src'),
@@ -58,7 +68,9 @@ const paths = (function setupPaths() {
         test: {
             root: path.join(root, 'test', '**', '*.test.js'),
             mocha: path.join(root, 'node_modules', '.bin', 'mocha'),
-            nyc: path.join(root, 'node_modules', '.bin', 'nyc')
+            nyc: path.join(root, 'node_modules', '.bin', 'nyc'),
+            resultsDirectory: (root, 'test-results'),
+            tapify: path.join(native.dependencies.greatest.miscDir, 'entapment.awk')
         }
     };
 
