@@ -50,7 +50,9 @@ const paths = (function setupPaths() {
         test: {
             output(componentName) {
                 return path.join(paths.root, `${componentName}-test-out.js`)
-            }
+            },
+            tapify: path.join(native.dependencies.greatest.miscDir, 'entapment.awk'),
+            resultsDirectory: path.join(root, 'test-results', 'wasm')
         }
     };
 
@@ -69,8 +71,7 @@ const paths = (function setupPaths() {
             root: path.join(root, 'test', '**', '*.test.js'),
             mocha: path.join(root, 'node_modules', '.bin', 'mocha'),
             nyc: path.join(root, 'node_modules', '.bin', 'nyc'),
-            resultsDirectory: (root, 'test-results'),
-            tapify: path.join(native.dependencies.greatest.miscDir, 'entapment.awk')
+            resultsDirectory: path.join(root, 'test-results', 'js')
         }
     };
 

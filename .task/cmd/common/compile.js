@@ -91,9 +91,10 @@ function compileTestExecutableForComponent(componentName, { klawSync, fs, paths,
         '-s', 'ASSERTIONS=1',
         '-s', 'ALLOW_MEMORY_GROWTH=1',
         '-s', `EXTRA_EXPORTED_RUNTIME_METHODS=[${extraExportedRuntimeMethods}]`,
-        '-s', 'ENVIRONMENT=node',
         '-D__CRYPTID_EXTERN_RANDOM',
-        '--js-library', path.join(paths.wasm.root, 'random.js'),
+        '-s', 'ENVIRONMENT=node',
+        '-s', 'SINGLE_FILE=1',
+        '--js-library', path.join(paths.wasm.root, 'random-node.js'),
         '-o', testExecutable
     ];
     

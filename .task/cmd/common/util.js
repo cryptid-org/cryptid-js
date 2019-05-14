@@ -32,6 +32,8 @@ function run({ spawnSync }, executable, args = [], opts = {}) {
     if (result.status != 0) {
         throw result;
     }
+
+    return result;
 };
 
 function walkDirectory(klawSync, baseDirectory, extension) {
