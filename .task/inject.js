@@ -71,7 +71,11 @@ const paths = (function setupPaths() {
             root: path.join(root, 'test', '**', '*.test.js'),
             mocha: path.join(root, 'node_modules', '.bin', 'mocha'),
             nyc: path.join(root, 'node_modules', '.bin', 'nyc'),
-            resultsDirectory: path.join(root, 'test-results', 'js')
+            resultsDirectory: path.join(root, 'test-results', 'js'),
+            resultJUnitFile: path.join(root, 'test-results', 'js', 'junit.xml')
+        },
+        coverage: {
+            lcovOutputFile: path.join(root, 'coverage', 'lcov.info')
         }
     };
 
