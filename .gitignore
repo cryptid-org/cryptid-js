@@ -91,3 +91,6 @@ src/wasm/cryptid-wasm.*
 
 # Bundling output
 lib/
+
+# Test results directory
+test-results/
