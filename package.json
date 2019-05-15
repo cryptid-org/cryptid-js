@@ -1,12 +1,19 @@
 {
   "name": "@cryptid/cryptid-js",
-  "version": "0.1.0",
-  "description": "Identity-based Cryptography library powered by WebAssembly.",
+  "version": "1.0.0",
+  "description": "Browser-friendly Identity-based Encryption library powered by WebAssembly.",
+  "license": "Apache-2.0",
   "main": "lib/node/js/index.js",
   "browser": "lib/browser/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "crypto",
+    "cryptography",
+    "identity-based encryption",
+    "ibe"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cryptid-org/cryptid-js.git"
@@ -28,5 +35,10 @@
     "rollup-plugin-commonjs": "^9.3.4",
     "rollup-plugin-node-resolve": "^4.2.4",
     "rollup-plugin-terser": "^4.0.4"
-  }
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "lib"
+  ]
 }
