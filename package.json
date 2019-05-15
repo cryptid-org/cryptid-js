@@ -1,6 +1,6 @@
 {
   "name": "@cryptid/cryptid-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Browser-friendly Identity-based Encryption library powered by WebAssembly.",
   "license": "Apache-2.0",
   "main": "lib/node/js/index.js",
