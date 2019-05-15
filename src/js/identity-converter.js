@@ -2,7 +2,7 @@ function isObject(element) {
     return element != null
         && typeof element == 'object'
         && !Array.isArray(element);
-}
+};
 
 function convertToSortedForm(element) {
     if (Array.isArray(element)) {
@@ -18,10 +18,10 @@ function convertToSortedForm(element) {
     } else {
         return element;
     }
-}
+};
 
 module.exports = function identityConverter(identity) {
     const sortedObj = convertToSortedForm(identity);
 
-    return sortedObj;
-}
+    return JSON.stringify(sortedObj);
+};
