@@ -7,7 +7,7 @@
 <div align="center">
 
 [![npm version](https://img.shields.io/npm/v/@cryptid/cryptid-js.svg)](https://www.npmjs.com/package/@cryptid/cryptid-js)
-[![License](![GitHub](https://img.shields.io/github/license/cryptid-org/cryptid-js.svg?label=license))](LICENSE)
+[![License](https://img.shields.io/github/license/cryptid-org/cryptid-js.svg?label=license)](LICENSE)
 
 </div>
 
